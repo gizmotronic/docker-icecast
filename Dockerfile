@@ -1,6 +1,7 @@
-FROM alpine:3.3
+FROM alpine:3.6
+MAINTAINER gizmotronic@gmail.com
 
-ENV ICECAST_VERSION 2.4.2-r1
+ENV ICECAST_VERSION 2.4.3-r4
 
 ARG user=icecast
 ARG group=icecast
