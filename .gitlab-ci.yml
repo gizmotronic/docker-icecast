@@ -1,0 +1,39 @@
+stages:
+  - test
+  - build
+
+variables:
+  IMAGE_TAG: $IMAGE_NAME:$CI_COMMIT_REF_NAME
+
+test:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  except:
+    - tags
+    - master
+  script:
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --no-push
+
+build-tags:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  only:
+    - tags
+  script:
+    - echo "${DOCKER_AUTH_CONFIG}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $IMAGE_TAG
+
+build-latest:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  only:
+    - master
+  script:
+    - echo "${DOCKER_AUTH_CONFIG}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $IMAGE_NAME:latest
