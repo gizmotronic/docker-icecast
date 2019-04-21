@@ -1,7 +1,7 @@
-FROM alpine:3.7
+FROM alpine:3.9
 LABEL maintainer="gizmotronic@gmail.com"
 
-ENV ICECAST_VERSION 2.4.3-r5
+ENV ICECAST_VERSION 2.4.4-r1
 
 ARG user=icecast
 ARG group=icecast
